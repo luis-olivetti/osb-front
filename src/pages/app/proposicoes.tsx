@@ -71,7 +71,7 @@ export function Proposicoes() {
           control={control}
           render={({ field: { name, onChange, value } }) => (
             <div className="space-y-2">
-              <Label htmlFor="municipio">Municipio</Label>
+              <Label htmlFor="municipio">Município</Label>
               <Select
                 name={name}
                 onValueChange={(val) => onChange(Number(val))}
@@ -152,7 +152,7 @@ export function Proposicoes() {
         </div>
 
         <Button size="lg" type="submit" disabled={isSubmitting || !isValid}>
-          Gerar Excel
+          Gerar excel
         </Button>
       </form>
     </>

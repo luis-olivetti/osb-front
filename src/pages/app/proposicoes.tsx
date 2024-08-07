@@ -69,32 +69,30 @@ export function Proposicoes() {
         <Controller
           name="municipioId"
           control={control}
-          render={({ field: { name, onChange, value } }) => {
-            return (
-              <div className="space-y-2">
-                <Label htmlFor="municipio">Municipio</Label>
-                <Select
-                  name={name}
-                  onValueChange={onChange}
-                  value={String(value)}
-                >
-                  <SelectTrigger className="h-8 w-[180px]">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {municipios.map((tipoProposicao) => (
-                      <SelectItem
-                        key={tipoProposicao.id}
-                        value={String(tipoProposicao.id)}
-                      >
-                        {tipoProposicao.nome}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            );
-          }}
+          render={({ field: { name, onChange, value } }) => (
+            <div className="space-y-2">
+              <Label htmlFor="municipio">Municipio</Label>
+              <Select
+                name={name}
+                onValueChange={(val) => onChange(Number(val))}
+                value={String(value)}
+              >
+                <SelectTrigger className="h-8 w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {municipios.map((municipio) => (
+                    <SelectItem
+                      key={municipio.id}
+                      value={String(municipio.id)}
+                    >
+                      {municipio.nome}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
         />
 
         <Controller

@@ -12,6 +12,20 @@ OSB-WEB é um front-end moderno desenvolvido com React, projetado para consumir 
 - Node.js versão 20
 - npm ou yarn
 
+### Dicas para Desenvolvedor
+
+Caso utilize NVM:
+
+```shell
+nvm use v20.14
+```
+
+Executar o projeto em modo DEV:
+
+```shell
+npm run dev
+```
+
 ### Criador
 
 [Maycon Ribeiro](https://github.com/MayconRRibeiro)

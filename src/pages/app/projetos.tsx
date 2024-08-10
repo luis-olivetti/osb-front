@@ -89,7 +89,7 @@ export function Projetos() {
 
   return (
     <>
-      <Helmet title="Proposições" />
+      <Helmet title="Projetos" />
 
       <form className="space-y-4" onSubmit={handleSubmit(handleGerarExcel)}>
         <Controller

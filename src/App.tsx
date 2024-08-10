@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 export function App() {
   return (
     <HelmetProvider>
-      <Helmet titleTemplate="%s | observatorio.social.brasil" />
+      <Helmet titleTemplate="OSB | %s" />
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
         <ToastContainer

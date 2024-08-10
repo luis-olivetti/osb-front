@@ -107,7 +107,7 @@ export function Projetos() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {municipios.map((municipio) => (
+                  {municipios.map((municipio: any) => (
                     <SelectItem
                       key={municipio.id}
                       value={String(municipio.id)}
@@ -133,7 +133,7 @@ export function Projetos() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {especiesProjetos.map((especie) => (
+                    {especiesProjetos.map((especie: any) => (
                       <SelectItem
                         key={especie.id}
                         value={String(especie.id)}

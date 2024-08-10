@@ -107,7 +107,7 @@ export function Proposicoes() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {municipios.map((municipio) => (
+                  {municipios.map((municipio: any) => (
                     <SelectItem
                       key={municipio.id}
                       value={String(municipio.id)}
@@ -133,7 +133,7 @@ export function Proposicoes() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {tiposProposicoes.map((tipoProposicao) => (
+                    {tiposProposicoes.map((tipoProposicao: any) => (
                       <SelectItem
                         key={tipoProposicao.id}
                         value={String(tipoProposicao.id)}

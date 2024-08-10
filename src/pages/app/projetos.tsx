@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { Helmet } from "react-helmet-async";
 import { Controller, useForm } from "react-hook-form";
 
-import { getProposicoesExcel } from "@/api/get-proposicoes-excel";
+import { getProjetosExcel } from "@/api/get-projetos-excel";
 import { Button } from "@/components/ui/button";
 import { DatePicker } from "@/components/ui/date-picker";
 import { Label } from "@/components/ui/label";
@@ -15,14 +15,14 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-import { ProposicoesForm, proposicoesForm } from "./proposicoes.validacao";
+import { ProjetosForm, projetosForm } from "./projetos.validacao";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/axios";
 import { toast } from 'react-toastify';
 
-export function Proposicoes() {
+export function Projetos() {
   const [municipios, setMunicipios] = useState([]);
-  const [tiposProposicoes, setTiposProposicoes] = useState([]);
+  const [especiesProjetos, setEspeciesProjetos] = useState([]);
 
   useEffect(() => {
     async function fetchMunicipios() {
@@ -38,31 +38,31 @@ export function Proposicoes() {
       }
     }
 
-    async function fetchTiposProposicoes() {
+    async function fetchEspeciesProjetos() {
       try {
-        const response = await api.get('proposicao/tipos', {
+        const response = await api.get('projeto/especies', {
           headers: {
             'Accept': 'application/json',
           },
         });
-        setTiposProposicoes(response.data);
+        setEspeciesProjetos(response.data);
       } catch (error) {
-        toast.error("Erro ao buscar tipos de proposições");
+        toast.error("Erro ao buscar espécies de projetos");
       }
     }
 
     fetchMunicipios();
-    fetchTiposProposicoes();
+    fetchEspeciesProjetos();
   }, []);
 
   const {
     handleSubmit,
     control,
     formState: { isSubmitting, isValid },
-  } = useForm<ProposicoesForm>({
-    resolver: zodResolver(proposicoesForm),
+  } = useForm<ProjetosForm>({
+    resolver: zodResolver(projetosForm),
     defaultValues: {
-      tipo: "0",
+      especie: "0",
       municipioId: 9,
       dataInicio: new Date(),
       dataFim: new Date(),
@@ -71,14 +71,14 @@ export function Proposicoes() {
 
   const handleGerarExcel = async ({
     municipioId,
-    tipo,
+    especie,
     dataInicio,
     dataFim,
-  }: ProposicoesForm) => {
+  }: ProjetosForm) => {
     try {
-      await getProposicoesExcel({
+      await getProjetosExcel({
         municipioId,
-        tipo,
+        especie,
         dataInicio: format(dataInicio, "yyyy-MM-dd"),
         dataFim: format(dataFim, "yyyy-MM-dd"),
       });
@@ -122,23 +122,23 @@ export function Proposicoes() {
         />
 
         <Controller
-          name="tipo"
+          name="especie"
           control={control}
           render={({ field: { name, onChange, value } }) => {
             return (
               <div className="space-y-2">
-                <Label htmlFor="tipo">Tipo</Label>
+                <Label htmlFor="especie">Espécie</Label>
                 <Select name={name} onValueChange={onChange} value={value}>
                   <SelectTrigger className="h-8 w-[180px]">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    {tiposProposicoes.map((tipoProposicao) => (
+                    {especiesProjetos.map((especie) => (
                       <SelectItem
-                        key={tipoProposicao.id}
-                        value={String(tipoProposicao.id)}
+                        key={especie.id}
+                        value={String(especie.id)}
                       >
-                        {tipoProposicao.nome}
+                        {especie.nome}
                       </SelectItem>
                     ))}
                   </SelectContent>

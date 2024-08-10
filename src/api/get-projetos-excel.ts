@@ -1,23 +1,23 @@
 import { api } from "@/lib/axios";
 
-export interface GetProposicoesExcelQuery {
+export interface GetProjetosExcelQuery {
   municipioId: number;
-  tipo: string;
+  especie: string;
   dataInicio: string;
   dataFim: string;
 }
 
-export async function getProposicoesExcel({
+export async function getProjetosExcel({
   municipioId,
-  tipo,
+  especie,
   dataInicio,
   dataFim,
-}: GetProposicoesExcelQuery) {
+}: GetProjetosExcelQuery) {
   try {
-    const response = await api.get<Blob>("/proposicao/gerar-excel", {
+    const response = await api.get<Blob>("/projeto/gerar-excel", {
       params: {
         id_municipio: municipioId,
-        tipo,
+        especie,
         data_inicio: dataInicio,
         data_final: dataFim,
       },
@@ -27,7 +27,7 @@ export async function getProposicoesExcel({
     const url = window.URL.createObjectURL(new Blob([response.data]));
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'proposicoes.xlsx');
+    link.setAttribute('download', 'projetos.xlsx');
     document.body.appendChild(link);
     link.click();
 

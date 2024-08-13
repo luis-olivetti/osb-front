@@ -19,40 +19,34 @@ import { ProjetosForm, projetosForm } from "./projetos.validacao";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/axios";
 import { toast } from 'react-toastify';
+import ClipLoader from "react-spinners/ClipLoader";
+
+function Spinner() {
+  return <ClipLoader color="#36d7b7" />;
+}
 
 export function Projetos() {
   const [municipios, setMunicipios] = useState([]);
   const [especiesProjetos, setEspeciesProjetos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchMunicipios() {
+    async function fetchData() {
       try {
-        const response = await api.get('municipios', {
-          headers: {
-            'Accept': 'application/json',
-          },
-        });
-        setMunicipios(response.data);
+        const [municipiosResponse, especiesProjetosResponse] = await Promise.all([
+          api.get('municipios', { headers: { 'Accept': 'application/json' } }),
+          api.get('projeto/especies', { headers: { 'Accept': 'application/json' } }),
+        ]);
+        setMunicipios(municipiosResponse.data);
+        setEspeciesProjetos(especiesProjetosResponse.data);
       } catch (error) {
-        toast.error("Erro ao buscar municípios");
+        toast.error("Erro ao buscar dados");
+      } finally {
+        setLoading(false);
       }
     }
 
-    async function fetchEspeciesProjetos() {
-      try {
-        const response = await api.get('projeto/especies', {
-          headers: {
-            'Accept': 'application/json',
-          },
-        });
-        setEspeciesProjetos(response.data);
-      } catch (error) {
-        toast.error("Erro ao buscar espécies de projetos");
-      }
-    }
-
-    fetchMunicipios();
-    fetchEspeciesProjetos();
+    fetchData();
   }, []);
 
   const {
@@ -86,6 +80,14 @@ export function Projetos() {
       toast.error(error.message);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <Spinner /> { }
+      </div>
+    );
+  }
 
   return (
     <>

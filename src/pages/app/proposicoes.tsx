@@ -19,40 +19,34 @@ import { ProposicoesForm, proposicoesForm } from "./proposicoes.validacao";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/axios";
 import { toast } from 'react-toastify';
+import ClipLoader from "react-spinners/ClipLoader";
+
+function Spinner() {
+  return <ClipLoader color="#36d7b7" />;
+}
 
 export function Proposicoes() {
   const [municipios, setMunicipios] = useState([]);
   const [tiposProposicoes, setTiposProposicoes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchMunicipios() {
+    async function fetchData() {
       try {
-        const response = await api.get('municipios', {
-          headers: {
-            'Accept': 'application/json',
-          },
-        });
-        setMunicipios(response.data);
+        const [municipiosResponse, tiposProposicoesResponse] = await Promise.all([
+          api.get('municipios', { headers: { 'Accept': 'application/json' } }),
+          api.get('proposicao/tipos', { headers: { 'Accept': 'application/json' } }),
+        ]);
+        setMunicipios(municipiosResponse.data);
+        setTiposProposicoes(tiposProposicoesResponse.data);
       } catch (error) {
-        toast.error("Erro ao buscar municípios");
+        toast.error("Erro ao buscar dados");
+      } finally {
+        setLoading(false);
       }
     }
 
-    async function fetchTiposProposicoes() {
-      try {
-        const response = await api.get('proposicao/tipos', {
-          headers: {
-            'Accept': 'application/json',
-          },
-        });
-        setTiposProposicoes(response.data);
-      } catch (error) {
-        toast.error("Erro ao buscar tipos de proposições");
-      }
-    }
-
-    fetchMunicipios();
-    fetchTiposProposicoes();
+    fetchData();
   }, []);
 
   const {
@@ -86,6 +80,14 @@ export function Proposicoes() {
       toast.error(error.message);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <Spinner /> { }
+      </div>
+    );
+  }
 
   return (
     <>
